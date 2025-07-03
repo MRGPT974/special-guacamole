@@ -1,9 +1,15 @@
-const { User, Pro, Request } = require('../models');
+const { User, Pro, Request, Subscription } = require('../models');
 
 exports.getAllUsers = async (req, res) => {
+  const { role } = req.query;
+  const where = {};
+  if (role && ['PARENT', 'PRO', 'ADMIN'].includes(role)) {
+    where.role = role;
+  }
   try {
     const users = await User.findAll({
-      attributes: { exclude: ['password'] },
+      where,
+      attributes: ['id', 'nom', 'prenom', 'email', 'role', 'createdAt'],
     });
     res.json(users);
   } catch (err) {
@@ -14,8 +20,19 @@ exports.getAllUsers = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
-    await User.destroy({ where: { id } });
-    res.json({ message: 'User deleted' });
+    const user = await User.findByPk(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
+    }
+
+    if (user.role === 'PRO') {
+      await Pro.destroy({ where: { id_user: id } });
+    } else if (user.role === 'PARENT') {
+      await Request.destroy({ where: { id_parent: id } });
+    }
+
+    await user.destroy();
+    res.json({ message: 'Utilisateur supprimé' });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -33,10 +50,21 @@ exports.blockPro = async (req, res) => {
 
 exports.getStats = async (req, res) => {
   try {
-    const users = await User.count();
-    const pros = await Pro.count({ where: { abonnement_actif: true } });
-    const requests = await Request.count({ where: { statut: 'EN_COURS' } });
-    res.json({ users, pros_actifs: pros, demandes_en_cours: requests });
+    const totalUsers = await User.count();
+    const totalParents = await User.count({ where: { role: 'PARENT' } });
+    const totalPros = await User.count({ where: { role: 'PRO' } });
+    const totalAdmins = await User.count({ where: { role: 'ADMIN' } });
+    const totalRequests = await Request.count();
+    const activeSubscriptions = await Subscription.count({ where: { statut: 'ACTIF' } });
+
+    res.json({
+      totalUsers,
+      totalParents,
+      totalPros,
+      totalAdmins,
+      totalRequests,
+      activeSubscriptions,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
