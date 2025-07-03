@@ -3,6 +3,7 @@ const User = require('./user');
 const Pro = require('./pro');
 const Subscription = require('./subscription');
 const Request = require('./request');
+const PasswordResetToken = require('./passwordResetToken');
 
 // Associations
 Pro.belongsTo(User, { foreignKey: 'id_user' });
@@ -20,4 +21,5 @@ module.exports = {
   Pro,
   Subscription,
   Request,
+  PasswordResetToken,
 };

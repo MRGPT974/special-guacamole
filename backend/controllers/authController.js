@@ -1,12 +1,9 @@
 const { validationResult } = require('express-validator');
-const { User, Pro } = require('../models');
+const { User, Pro, PasswordResetToken } = require('../models');
 const { hashPassword, comparePassword } = require('../utils/hash');
 const { generateToken } = require('../utils/jwt');
 const { sendResetEmail } = require('../utils/email');
 const crypto = require('crypto');
-
-// In-memory reset tokens (for simplicity)
-const resetTokens = new Map();
 
 exports.register = async (req, res) => {
   const errors = validationResult(req);
@@ -50,7 +47,8 @@ exports.forgotPassword = async (req, res) => {
     const user = await User.findOne({ where: { email } });
     if (!user) return res.status(404).json({ message: 'User not found' });
     const token = crypto.randomBytes(20).toString('hex');
-    resetTokens.set(token, user.id);
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+    await PasswordResetToken.create({ userId: user.id, token, expiresAt });
     await sendResetEmail(email, token);
     res.json({ message: 'Reset email sent' });
   } catch (err) {
@@ -60,12 +58,14 @@ exports.forgotPassword = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   const { token, password } = req.body;
-  const userId = resetTokens.get(token);
-  if (!userId) return res.status(400).json({ message: 'Invalid token' });
+  const record = await PasswordResetToken.findOne({ where: { token } });
+  if (!record || record.expiresAt < new Date()) {
+    return res.status(400).json({ message: 'Invalid token' });
+  }
   try {
     const hashed = await hashPassword(password);
-    await User.update({ password: hashed }, { where: { id: userId } });
-    resetTokens.delete(token);
+    await User.update({ password: hashed }, { where: { id: record.userId } });
+    await record.destroy();
     res.json({ message: 'Password reset successful' });
   } catch (err) {
     res.status(500).json({ message: err.message });

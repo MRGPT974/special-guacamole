@@ -44,6 +44,14 @@ CREATE TABLE requests (
   FOREIGN KEY (id_parent) REFERENCES users(id)
 );
 
+CREATE TABLE password_reset_tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  token VARCHAR(255) NOT NULL,
+  expiresAt DATETIME NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
 INSERT INTO users (nom, prenom, email, password, role) VALUES
 ('Admin', 'Admin', 'admin@example.com', '$2b$10$abcdef', 'ADMIN'),
 ('Parent', 'Test', 'parent@example.com', '$2b$10$abcdef', 'PARENT'),

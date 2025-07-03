@@ -8,8 +8,8 @@ API de mise en relation entre parents et professionnels de la garde d'enfants.
 npm install
 ```
 
-Créez une base de données MySQL et importez le fichier `backend/database.sql`.
-Copiez `.env.example` vers `.env` et ajustez les variables.
+Copiez `backend/.env.example` vers `backend/.env` et ajustez les variables.
+Créez une base de données MySQL puis importez le fichier `backend/database.sql` **ou** lancez le script de seed.
 
 ## Démarrage
 
@@ -29,3 +29,9 @@ node backend/server.js
 ## Seed
 
 Le fichier `backend/database.sql` insère un administrateur, un parent, un professionnel et une demande active.
+
+Pour générer ces données via Sequelize, exécutez :
+
+```bash
+node backend/seed/seed.js
+```

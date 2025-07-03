@@ -22,6 +22,11 @@ app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync().then(() => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-});
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('Erreur de connexion à la base :', err);
+  });
