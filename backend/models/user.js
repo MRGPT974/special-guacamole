@@ -22,10 +22,6 @@ const User = sequelize.define('User', {
     type: DataTypes.ENUM('PARENT', 'PRO', 'ADMIN'),
     allowNull: false,
   },
-  date_creation: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
 });
 
 module.exports = User;

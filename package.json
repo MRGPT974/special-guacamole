@@ -4,7 +4,8 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "seed": "node backend/seed/seed.js"
+    "seed": "node backend/seed/seed.js",
+    "test": "jest"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -16,5 +17,9 @@
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.2.0",
     "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
   }
 }

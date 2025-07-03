@@ -26,11 +26,16 @@ app.use('/api/dashboard', dashboardRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-sequelize
-  .sync()
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => {
-    console.error('Erreur de connexion à la base :', err);
-  });
+
+if (require.main === module) {
+  sequelize
+    .sync()
+    .then(() => {
+      app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    })
+    .catch((err) => {
+      console.error('Erreur de connexion à la base :', err);
+    });
+}
+
+module.exports = app;

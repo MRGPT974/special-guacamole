@@ -19,6 +19,14 @@ Exécutez `npm install` avant `npm start` pour installer les dépendances.
 node backend/server.js
 ```
 
+## Tests
+
+Pour exécuter la suite de tests Jest :
+
+```bash
+npm test
+```
+
 ## Structure
 
 - `backend/models` : définitions Sequelize
