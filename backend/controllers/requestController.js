@@ -3,7 +3,16 @@ const { Request } = require('../models');
 
 exports.createRequest = async (req, res) => {
   try {
-    const { age_enfant, adresse, date_debut, date_fin, commentaires } = req.body;
+    const {
+      age_enfant,
+      adresse,
+      date_debut,
+      date_fin,
+      commentaires,
+      type,
+      capacite,
+    } = req.body;
+
     const reqObj = await Request.create({
       id_parent: req.user.id,
       age_enfant,
@@ -11,6 +20,8 @@ exports.createRequest = async (req, res) => {
       date_debut,
       date_fin,
       commentaires,
+      type,
+      capacite,
       statut: 'EN_COURS',
     });
     res.status(201).json(reqObj);

@@ -14,7 +14,17 @@ async function seed() {
 
   const pro = await Pro.create({ id_user: proUser.id, type: 'ASSMAT', adresse: '1 rue de Paris', capacite: 3, description: 'Professionnel test', abonnement_actif: true });
 
-  await Request.create({ id_parent: parent.id, age_enfant: 3, adresse: '1 rue de Lyon', date_debut: '2024-01-01', date_fin: '2024-06-01', commentaires: 'Besoin de garde', statut: 'EN_COURS' });
+  await Request.create({
+    id_parent: parent.id,
+    age_enfant: 3,
+    adresse: '1 rue de Lyon',
+    type: 'ASSMAT',
+    capacite: 1,
+    date_debut: '2024-01-01',
+    date_fin: '2024-06-01',
+    commentaires: 'Besoin de garde',
+    statut: 'EN_COURS',
+  });
 
   console.log('Seed completed');
   await sequelize.close();

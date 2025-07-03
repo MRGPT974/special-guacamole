@@ -17,6 +17,8 @@ const Request = sequelize.define('Request', {
   },
   age_enfant: DataTypes.INTEGER,
   adresse: DataTypes.STRING,
+  type: DataTypes.STRING,
+  capacite: DataTypes.INTEGER,
   date_debut: DataTypes.DATEONLY,
   date_fin: DataTypes.DATEONLY,
   commentaires: DataTypes.TEXT,

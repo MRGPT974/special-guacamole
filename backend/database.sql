@@ -37,6 +37,8 @@ CREATE TABLE requests (
   id_parent INT,
   age_enfant INT,
   adresse VARCHAR(255),
+  type VARCHAR(50),
+  capacite INT,
   date_debut DATE,
   date_fin DATE,
   commentaires TEXT,
@@ -60,5 +62,5 @@ INSERT INTO users (nom, prenom, email, password, role) VALUES
 INSERT INTO pros (id_user, type, adresse, capacite, description, abonnement_actif)
 VALUES (3, 'ASSMAT', '1 rue de Paris', 3, 'Professionnel test', true);
 
-INSERT INTO requests (id_parent, age_enfant, adresse, date_debut, date_fin, commentaires, statut)
-VALUES (2, 3, '1 rue de Lyon', '2024-01-01', '2024-06-01', 'Besoin de garde', 'EN_COURS');
+INSERT INTO requests (id_parent, age_enfant, adresse, type, capacite, date_debut, date_fin, commentaires, statut)
+VALUES (2, 3, '1 rue de Lyon', 'ASSMAT', 1, '2024-01-01', '2024-06-01', 'Besoin de garde', 'EN_COURS');
