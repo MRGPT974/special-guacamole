@@ -12,9 +12,13 @@ exports.register = async (req, res) => {
   }
   try {
     const { nom, prenom, email, password, role } = req.body;
+    const finalRole = role || 'PARENT';
+    if (finalRole === 'ADMIN') {
+      return res.status(403).json({ message: 'Registration as ADMIN is forbidden' });
+    }
     const hashed = await hashPassword(password);
-    const user = await User.create({ nom, prenom, email, password: hashed, role });
-    if (role === 'PRO') {
+    const user = await User.create({ nom, prenom, email, password: hashed, role: finalRole });
+    if (finalRole === 'PRO') {
       await Pro.create({ id_user: user.id });
     }
     res.status(201).json({ message: 'User registered' });

@@ -19,7 +19,14 @@ exports.updatePro = async (req, res) => {
     if (req.user.role === 'PRO' && pro.id_user !== req.user.id) {
       return res.status(403).json({ message: 'Forbidden' });
     }
-    await pro.update(req.body);
+    const allowedFields = ['description', 'adresse', 'capacite', 'type', 'agrement_pdf'];
+    const updateData = {};
+    for (const key of allowedFields) {
+      if (req.body[key] !== undefined) {
+        updateData[key] = req.body[key];
+      }
+    }
+    await pro.update(updateData);
     res.json({ message: 'Professional updated' });
   } catch (err) {
     res.status(500).json({ message: err.message });
