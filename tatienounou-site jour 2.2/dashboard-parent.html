@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Parent - Tatienounou</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style> body { font-family: 'Poppins', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <header class="bg-violet-600 text-white text-center py-6 shadow">
+    <h1 class="text-2xl font-semibold">Mon espace parent</h1>
+    <p class="text-sm text-gray-200">ID Parent : <strong>P-974001</strong></p>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-10 space-y-12">
+
+    <!-- Liste des demandes -->
+    <section>
+      <h2 class="text-lg font-semibold mb-4">Mes demandes de garde</h2>
+
+      <div id="demandes" class="space-y-4">
+        <div class="bg-white p-4 rounded-xl shadow">
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="font-medium">👧 Léa, 5 ans</p>
+              <p class="text-sm text-gray-600">Du 1er au 15 septembre - Journée complète</p>
+            </div>
+            <div class="flex flex-col gap-2 items-end">
+              <span class="text-sm text-yellow-600 font-semibold">⏳ En attente</span>
+              <button onclick="this.closest('.bg-white').remove()" class="text-sm text-red-500 hover:underline">
+                Supprimer la demande
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- D'autres blocs similaires peuvent être injectés dynamiquement -->
+      </div>
+    </section>
+
+    <!-- Formulaire de création -->
+    <section>
+      <h2 class="text-lg font-semibold mb-4">Créer une nouvelle demande</h2>
+      <form class="bg-white p-6 rounded-xl shadow space-y-4">
+        <input type="text" placeholder="Prénom de l’enfant" class="w-full border px-4 py-2 rounded" required />
+        <input type="number" placeholder="Âge de l’enfant" class="w-full border px-4 py-2 rounded" required />
+        <input type="text" placeholder="Période souhaitée (ex : 1 au 15 septembre)" class="w-full border px-4 py-2 rounded" required />
+        <input type="text" placeholder="Horaires (ex : 8h - 17h)" class="w-full border px-4 py-2 rounded" />
+        <textarea placeholder="Précisions éventuelles…" class="w-full border px-4 py-2 rounded" rows="3"></textarea>
+
+        <button type="submit" class="w-full bg-violet-600 text-white py-3 rounded hover:bg-violet-700">
+          Envoyer la demande
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-100 text-sm text-center py-8 mt-10">
+    <div class="flex justify-center gap-6 flex-wrap text-gray-600 mb-4">
+      <a href="footer/mentions-legales.html" class="hover:underline">Mentions légales</a>
+      <a href="footer/confidentialite.html" class="hover:underline">Politique de confidentialité</a>
+      <a href="footer/cookies.html" class="hover:underline">Cookies</a>
+      <a href="footer/cgv.html" class="hover:underline">CGV</a>
+      <a href="footer/cgu.html" class="hover:underline">CGU</a>
+    </div>
+    <p class="text-gray-500">&copy; 2025 Tatienounou.fr – Tous droits réservés.</p>
+  </footer>
+
+</body>
+</html>

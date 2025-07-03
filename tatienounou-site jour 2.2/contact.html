@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Tatienounou</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style> body { font-family: 'Poppins', sans-serif; } </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <header class="bg-violet-600 text-white text-center py-6">
+    <h1 class="text-2xl font-semibold">Contactez-nous</h1>
+    <p class="text-sm text-gray-200">Une question ? Une demande ? Écrivez-nous.</p>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-12">
+    <form action="mailto:contact@tatienounou.fr" method="POST" enctype="text/plain" class="bg-white p-6 rounded-xl shadow space-y-4">
+      <input type="text" name="nom" placeholder="Votre nom" required class="w-full border px-4 py-2 rounded" />
+      <input type="email" name="email" placeholder="Votre email" required class="w-full border px-4 py-2 rounded" />
+      <textarea name="message" rows="5" placeholder="Votre message..." required class="w-full border px-4 py-2 rounded"></textarea>
+      <button type="submit" class="w-full bg-violet-600 text-white py-2 rounded hover:bg-violet-700 transition">Envoyer</button>
+    </form>
+  </main>
+
+  <!-- Footer homogène -->
+  <footer class="bg-violet-700 text-white text-center py-6">
+    <div class="flex flex-wrap justify-center gap-4 mb-4">
+      <a href="/footer/mentions-legales.html" class="hover:underline">Mentions légales</a>
+      <a href="/footer/cgu.html" class="hover:underline">CGU</a>
+      <a href="/footer/cgv.html" class="hover:underline">CGV</a>
+      <a href="/footer/confidentialite.html" class="hover:underline">Confidentialité</a>
+      <a href="/footer/cookies.html" class="hover:underline">Cookies</a>
+      <a href="/footer/contact.html" class="hover:underline">Contact</a>
+    </div>
+    <p class="text-sm">&copy; 2025 Tatienounou.fr – Tous droits réservés</p>
+  </footer>
+
+  <script>
+    function acceptCookies() {
+      localStorage.setItem('tatienounou-cookies', 'accepted');
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+
+    window.onload = function () {
+      if (localStorage.getItem('tatienounou-cookies') === 'accepted') {
+        document.getElementById('cookie-banner').style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html>
