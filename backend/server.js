@@ -7,6 +7,7 @@ const sequelize = require('./models').sequelize;
 const authRoutes = require('./routes/authRoutes');
 const proRoutes = require('./routes/proRoutes');
 const requestRoutes = require('./routes/requestRoutes');
+const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/pros', proRoutes);
 app.use('/api/requests', requestRoutes);
+app.use('/api', subscriptionRoutes);
 app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 3000;

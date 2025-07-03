@@ -17,7 +17,8 @@ const validateId = [
 
 const router = express.Router();
 
-router.get('/', auth, proController.getAllPros);
+router.get('/', proController.getAllPros);
+router.get('/:id', validateId, proController.getProById);
 router.put('/:id', auth, role('PRO', 'ADMIN'), validateId, proController.updatePro);
 
 module.exports = router;

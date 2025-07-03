@@ -11,6 +11,8 @@ npm install
 Copiez `backend/.env.example` vers `backend/.env` et ajustez les variables.
 Créez une base de données MySQL puis importez le fichier `backend/database.sql` **ou** lancez le script de seed.
 
+Exécutez `npm install` avant `npm start` pour installer les dépendances.
+
 ## Démarrage
 
 ```bash
@@ -35,3 +37,4 @@ Pour générer ces données via Sequelize, exécutez :
 ```bash
 node backend/seed/seed.js
 ```
+Ce script crée des comptes de test (admin, parent et pro).
