@@ -16,12 +16,22 @@ exports.register = async (req, res) => {
     if (finalRole === 'ADMIN') {
       return res.status(403).json({ message: 'Registration as ADMIN is forbidden' });
     }
+
+    const existing = await User.findOne({ where: { email } });
+    if (existing) {
+      return res.status(400).json({ message: 'Email already in use' });
+    }
+
     const hashed = await hashPassword(password);
     const user = await User.create({ nom, prenom, email, password: hashed, role: finalRole });
     if (finalRole === 'PRO') {
       await Pro.create({ id_user: user.id });
     }
-    res.status(201).json({ message: 'User registered' });
+
+    const token = generateToken({ id: user.id, role: user.role });
+    const { password: _pw, ...userData } = user.toJSON();
+
+    res.status(201).json({ token, user: userData });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -38,14 +48,35 @@ exports.login = async (req, res) => {
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
     const valid = await comparePassword(password, user.password);
     if (!valid) return res.status(400).json({ message: 'Invalid credentials' });
+
     const token = generateToken({ id: user.id, role: user.role });
-    res.json({ token });
+    const { password: _pw, ...userData } = user.toJSON();
+
+    res.json({ token, user: userData });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.getMe = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const { password: _pw, ...userData } = user.toJSON();
+    res.json(userData);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
 exports.forgotPassword = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { email } = req.body;
   try {
     const user = await User.findOne({ where: { email } });
@@ -61,6 +92,11 @@ exports.forgotPassword = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { token, password } = req.body;
   const record = await PasswordResetToken.findOne({ where: { token } });
   if (!record || record.expiresAt < new Date()) {

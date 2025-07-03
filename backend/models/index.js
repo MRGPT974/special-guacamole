@@ -15,6 +15,9 @@ Pro.hasMany(Subscription, { foreignKey: 'id_pro' });
 Request.belongsTo(User, { as: 'parent', foreignKey: 'id_parent' });
 User.hasMany(Request, { as: 'requests', foreignKey: 'id_parent' });
 
+PasswordResetToken.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(PasswordResetToken, { foreignKey: 'userId' });
+
 module.exports = {
   sequelize,
   User,

@@ -1,6 +1,7 @@
 const express = require('express');
 const { body } = require('express-validator');
 const authController = require('../controllers/authController');
+const auth = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
@@ -9,7 +10,7 @@ router.post(
   [
     body('email').isEmail(),
     body('password').isLength({ min: 6 }),
-    body('role').isIn(['PARENT', 'PRO', 'ADMIN']),
+    body('role').optional().isIn(['PARENT', 'PRO']),
   ],
   authController.register
 );
@@ -20,7 +21,13 @@ router.post(
   authController.login
 );
 
-router.post('/forgot-password', authController.forgotPassword);
-router.post('/reset-password', authController.resetPassword);
+router.post('/forgot-password', [body('email').isEmail()], authController.forgotPassword);
+router.post(
+  '/reset-password',
+  [body('token').notEmpty(), body('password').isLength({ min: 6 })],
+  authController.resetPassword
+);
+
+router.get('/me', auth, authController.getMe);
 
 module.exports = router;
